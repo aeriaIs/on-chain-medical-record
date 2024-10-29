@@ -1,39 +1,37 @@
-import {AuthContext} from '@/components/auth';
-import {Delete} from '@/components/delete';
-import type {Note, NoteData} from '@/types/note';
-import {listDocs} from '@junobuild/core-peer';
-import {useContext, useEffect, useState} from 'react';
+import {AuthContext} from '@/components/auth'
+import {Delete} from '@/components/delete'
+import type {Note, NoteData} from '@/types/note'
+import {listDocs} from '@junobuild/core-peer'
+import {useContext, useEffect, useState} from 'react'
 
 export const Table = () => {
-  const {user} = useContext(AuthContext);
-  const [items, setItems] = useState<Note[]>([]);
+  const {user} = useContext(AuthContext)
+  const [items, setItems] = useState<Note[]>([])
 
   useEffect(() => {
-    window.addEventListener('reload', list);
+    window.addEventListener('reload', list)
 
     return () => {
-      window.removeEventListener('reload', list);
-    };
-  }, []);
+      window.removeEventListener('reload', list)
+    }
+  }, [])
 
   const list = async () => {
     const {items} = await listDocs<NoteData>({
       collection: 'notes',
       filter: {}
-    });
+    })
 
-    setItems(items);
-  };
+    setItems(items)
+  }
 
   useEffect(() => {
     if (user === undefined || user === null) {
-      setItems([]);
-      return;
+      setItems([])
+      return
     }
-
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    (async () => await list())();
-  }, [user]);
+    (async () => await list())()
+  }, [user])
 
   return (
     <div className="w-full max-w-2xl mt-8 dark:text-white" role="table">
@@ -48,7 +46,7 @@ export const Table = () => {
           const {
             key,
             data: {text, url}
-          } = item;
+          } = item
 
           return (
             <div
@@ -85,9 +83,9 @@ export const Table = () => {
                 <Delete item={item} reload={list} />
               </div>
             </div>
-          );
+          )
         })}
       </div>
     </div>
-  );
-};
+  )
+}

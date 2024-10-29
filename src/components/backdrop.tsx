@@ -11,4 +11,4 @@ export const Backdrop = ({spinner = false}: BackdropProps) => (
                     border-[3px] border-solid border-lavender-blue-600 border-t-transparent"></div>
     )}
   </div>
-);
+)

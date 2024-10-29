@@ -1,23 +1,22 @@
-'use client';
+'use client'
 
-import {Auth} from '@/components/auth';
-import {Background} from '@/components/background';
-import {Footer} from '@/components/footer';
-import {Modal} from '@/components/modal';
-import {Table} from '@/components/table';
-import {initSatellite} from '@junobuild/core-peer';
-import {useEffect} from 'react';
+import {Auth} from '@/components/auth'
+import {Background} from '@/components/background'
+import {Footer} from '@/components/footer'
+import {Modal} from '@/components/modal'
+import {Table} from '@/components/table'
+import {initSatellite} from '@junobuild/core-peer'
+import {useEffect} from 'react'
 
-export default function Home() {
+export default function Home () {
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     (async () =>
       await initSatellite({
         workers: {
           auth: true
         }
-      }))();
-  }, []);
+      }))()
+  }, [])
 
   return (
     <>
@@ -50,5 +49,5 @@ export default function Home() {
         <Background />
       </div>
     </>
-  );
+  )
 }

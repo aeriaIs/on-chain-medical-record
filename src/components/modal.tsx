@@ -1,53 +1,53 @@
-import {AuthContext} from '@/components/auth';
-import {Backdrop} from '@/components/backdrop';
-import {Button} from '@/components/button';
-import {setDoc, uploadFile} from '@junobuild/core-peer';
-import {nanoid} from 'nanoid';
-import {useContext, useEffect, useRef, useState} from 'react';
+import {AuthContext} from '@/components/auth'
+import {Backdrop} from '@/components/backdrop'
+import {Button} from '@/components/button'
+import {setDoc, uploadFile} from '@junobuild/core-peer'
+import {nanoid} from 'nanoid'
+import {useContext, useEffect, useRef, useState} from 'react'
 
 export const Modal = () => {
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [inputText, setInputText] = useState('');
-  const [valid, setValid] = useState(false);
-  const [progress, setProgress] = useState(false);
-  const [file, setFile] = useState<File | undefined>(undefined);
-  const uploadElement = useRef<HTMLInputElement>(null);
+  const [showModal, setShowModal] = useState<boolean>(false)
+  const [inputText, setInputText] = useState('')
+  const [valid, setValid] = useState(false)
+  const [progress, setProgress] = useState(false)
+  const [file, setFile] = useState<File | undefined>(undefined)
+  const uploadElement = useRef<HTMLInputElement>(null)
 
-  const {user} = useContext(AuthContext);
+  const {user} = useContext(AuthContext)
 
   useEffect(() => {
-    setValid(inputText !== '' && user !== undefined && user !== null);
-  }, [showModal, inputText, user]);
+    setValid(inputText !== '' && user !== undefined && user !== null)
+  }, [showModal, inputText, user])
 
   const reload = () => {
-    const event = new CustomEvent('reload');
-    window.dispatchEvent(event);
-  };
+    const event = new CustomEvent('reload')
+    window.dispatchEvent(event)
+  }
 
   const add = async () => {
     // Demo purpose therefore edge case not properly handled
     if (user === undefined || user === null) {
-      return;
+      return
     }
 
-    setProgress(true);
+    setProgress(true)
 
     try {
-      let url;
+      let url
 
       if (file !== undefined) {
-        const filename = `${user.key}-${file.name}`;
+        const filename = `${user.key}-${file.name}`
 
         const {downloadUrl} = await uploadFile({
           collection: 'images',
           data: file,
           filename
-        });
+        })
 
-        url = downloadUrl;
+        url = downloadUrl
       }
 
-      const key = nanoid();
+      const key = nanoid()
 
       await setDoc({
         collection: 'notes',
@@ -58,17 +58,17 @@ export const Modal = () => {
             ...(url !== undefined && {url})
           }
         }
-      });
+      })
 
-      setShowModal(false);
+      setShowModal(false)
 
-      reload();
+      reload()
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
 
-    setProgress(false);
-  };
+    setProgress(false)
+  }
 
   return (
     <>
@@ -105,7 +105,7 @@ export const Modal = () => {
                 rows={7}
                 placeholder="Your diary entry"
                 onChange={(e) => {
-                  setInputText(e.target.value);
+                  setInputText(e.target.value)
                 }}
                 value={inputText}
                 disabled={progress}></textarea>
@@ -168,5 +168,5 @@ export const Modal = () => {
         </>
       ) : null}
     </>
-  );
-};
+  )
+}
